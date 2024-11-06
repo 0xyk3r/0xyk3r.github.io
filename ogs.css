@@ -1,10 +1,11 @@
-.ratings-row {
-    display: none !important;
+body {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    text-align: center;
 }
 
 .container {
     max-width: none !important;
-    background-image: url('https://i.imgur.com/e6AbYrJ.png');
+    background: linear-gradient(to bottom right, #000000, #0b040c, #13091a, #181029, #1a1936, #1a2441, #183049, #153c4d, #14494e, #16554a, #1a6045, #236a3d, #307136, #407631, #53792e, #697a30 ,#7f7a36, #957941, #a97851, #ba7964, #c77a7b, #cf7e92, #d384a9, #d48cbf, #d196d1, #cda2e0, #c8afea, #c3bcf0, #c1caf3, #c2d6f2, #c5e0f1, #cde9ef, #d7f1ee, #e4f6f0, #f1fbf5, #ffffff) !important;
 }
 
 h1 {
@@ -38,6 +39,8 @@ h4 {
 
 .avatar-container .Player-username {
     color: #e168ff;
+    font-size: 2em;
+    font-family: "Comic Sans MS", cursive, serif;
 }
 
 .active-games {
@@ -125,4 +128,17 @@ h4 {
 
 #default-variant-container > div.User.container {
     min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, span {
+    animation:rainbowText 2s infinite;
+}
+@keyframes rainbowText{
+    0%   {  color: #FF0900; }
+    17%  {  color: #FF7F00; }
+    33%  {  color: #FFEF00; }
+    50%  {  color: #00F11D; }
+    67%  {  color: #0079FF; }
+    83%  {  color: #A800FF; }
+    100% {  color: #FF0900; }
 }
