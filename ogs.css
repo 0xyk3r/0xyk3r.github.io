@@ -97,3 +97,32 @@ h4 {
 #default-variant-container > div.User.container > div.row > div.col-sm-8 > div.Card {
     display: none;
 }
+
+#default-variant-container > div.User.container > div.row > div.col-sm-8 > div:nth-child(2) > div > div {
+    background-color: #000000;
+    border: solid;
+    border-color: #8f00ff;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+#default-variant-container > div.User.container > div.row > div.col-sm-4 > div.Card.activity-card {
+    background-color: #000000;
+    border: solid;
+    border-color: #8f00ff;
+    border-radius: 10px;
+    padding: 15px;
+}
+
+#default-variant-container > div.User.container > div:nth-child(1) > div > div > div.avatar-container > span {
+    background-color: #000000;
+    border: solid;
+    border-color: #8f00ff;
+    border-radius: 10px;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+#default-variant-container > div.User.container {
+    min-height: 100vh;
+}
