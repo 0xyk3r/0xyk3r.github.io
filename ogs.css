@@ -8,7 +8,7 @@
 }
 
 h1 {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 h2 {
@@ -25,65 +25,75 @@ h4 {
 
 
 .ratings-container {
-    background-color: #FFB6C1;
-    border: solid border-color: #8f00ff;
-    ridge #8f00ff;
+    background-color: #000000;
+    border: solid;
+    border-color: #8f00ff;
+    border-radius: 10px;
+    padding: 15px;
 }
 
 .rating-entry {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .avatar-container .Player-username {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .active-games {
     background-color: #FFB6C1;
-    border: solid border-color: #8f00ff;
-    ridge #8f00ff;
+    border: solid;
+    border-color: #8f00ff;
 }
 
 .move-number {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .game-name {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .Clock {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .size {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .Player-username {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .Player-rank {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .game_name {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .board_size {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .date {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .user_info {
-    color: #FF0000;
+    color: #e168ff;
 }
 
 .sortable {
     color: #228B22;
+}
+
+#default-variant-container > div.User.container > div.row > div.col-sm-8 > div:nth-child(3) {
+    display: none;
+}
+
+#default-variant-container > div.User.container > div.row > div.col-sm-8 > div.Card {
+    display: none;
 }
