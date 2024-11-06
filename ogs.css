@@ -1,0 +1,89 @@
+.ratings-row {
+    display: none !important;
+}
+
+.container {
+    max-width: none !important;
+    background-image: url('https://i.imgur.com/e6AbYrJ.png');
+}
+
+h1 {
+    color: #FF0000;
+}
+
+h2 {
+    color: #228B22;
+}
+
+h3 {
+    color: #228B22;
+}
+
+h4 {
+    color: #228B22;
+}
+
+
+.ratings-container {
+    background-color: #FFB6C1;
+    border: solid border-color: #8f00ff;
+    ridge #8f00ff;
+}
+
+.rating-entry {
+    color: #FF0000;
+}
+
+.avatar-container .Player-username {
+    color: #FF0000;
+}
+
+.active-games {
+    background-color: #FFB6C1;
+    border: solid border-color: #8f00ff;
+    ridge #8f00ff;
+}
+
+.move-number {
+    color: #FF0000;
+}
+
+.game-name {
+    color: #FF0000;
+}
+
+.Clock {
+    color: #FF0000;
+}
+
+.size {
+    color: #FF0000;
+}
+
+.Player-username {
+    color: #FF0000;
+}
+
+.Player-rank {
+    color: #FF0000;
+}
+
+.game_name {
+    color: #FF0000;
+}
+
+.board_size {
+    color: #FF0000;
+}
+
+.date {
+    color: #FF0000;
+}
+
+.user_info {
+    color: #FF0000;
+}
+
+.sortable {
+    color: #228B22;
+}
