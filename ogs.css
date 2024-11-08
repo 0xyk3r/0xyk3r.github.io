@@ -236,30 +236,30 @@ div.User.container>div.row>div.col-sm-4>h2 {
 
 /* scroll */
 ::-webkit-scrollbar {
-    width: 10px;
-    height: 1px;
+    width: 10px !important;
+    height: 1px !important;
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 10px;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    background: #535353;
+    border-radius: 10px !important;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2) !important;
+    background: #535353 !important;
 }
 
 ::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    background: #ededed;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2) !important;
+    border-radius: 10px !important;
+    background: #ededed !important;
 }
 
 /* bg */
 body {
-    overflow-y: hidden;
+    overflow-y: hidden !important;
 }
 
 #main-content {
-    height: 100vh;
-    overflow-y: scroll;
+    height: 100vh !important;
+    overflow-y: scroll !important;
     background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%) !important;
 }
 
@@ -272,15 +272,15 @@ body {
 }
 
 #default-variant-container>header>nav>section:nth-child(3)>a {
-    display: none;
+    display: none !important;
 }
 
 #default-variant-container>header>nav>section:nth-child(4)>a {
-    display: none;
+    display: none !important;
 }
 
 #default-variant-container>header>nav>section:nth-child(5)>a {
-    display: none;
+    display: none !important;
 }
 
 #default-variant-container>header>nav>section:nth-child(3) {
