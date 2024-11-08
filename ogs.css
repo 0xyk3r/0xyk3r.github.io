@@ -461,35 +461,24 @@ body {
 
 /* card */
 .Card {
-    --border-width: 3px;
-    position: relative;
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-family: Lato, sans-serif;
-    font-size: 2.5rem;
-    text-transform: uppercase;
-    background: #222;
-    border-radius: var(--border-width);
+    justify-content: center;
+    height: 60px;
+    width: 160px;
+    box-shadow: 0 0 10px 0 #000;
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgb(1, 255, 234), rgb(255, 251, 14), rgb(0, 238, 255));
+    animation: color 3s linear infinite;
+    transition: all 0.5s;
 }
 
-.Card::after {
-    position: absolute;
-    content: "";
-    top: calc(-1 * var(--border-width));
-    left: calc(-1 * var(--border-width));
-    z-index: -1;
-    width: calc(100% + var(--border-width) * 2);
-    height: calc(100% + var(--border-width) * 2);
-    background: linear-gradient(60deg, #5f86f2, #a65ff2, #f25fd0, #f25f61, #f2cb5f, #abf25f, #5ff281, #5ff2f0);
-    background-size: 300% 300%;
-    background-position: 0 50%;
-    border-radius: calc(2 * var(--border-width));
-    animation: moveGradient 4s alternate infinite;
+.Card:hover {
+    box-shadow: 0 0 20px 0 #000;
 }
 
-@keyframes moveGradient {
-    50% {
-        background-position: 100% 50%;
+@keyframes color {
+    to {
+        filter: hue-rotate(360deg);
     }
 }
