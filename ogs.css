@@ -202,6 +202,14 @@ span {
     }
 }
 
+div.User.container>div.row>div.col-sm-8>div:nth-child(2)>div>h2 {
+    display: none;
+}
+
+div.User.container>div.row>div.col-sm-4>h2 {
+    display: none;
+}
+
 .website-url a {
     animation: rainbowText 2s infinite;
     font-family: "Comic Sans MS", cursive, serif;
@@ -211,3 +219,90 @@ span {
     color: unset !important;
     text-decoration: none !important;
 }
+
+.game-history-table>div:nth-child(2) {
+    overflow: hidden;
+}
+
+.game-history-table>tbody>tr {
+    height: 50px;
+    overflow: hidden;
+    border-bottom: 1px solid #333;
+}
+
+.game-name {
+    overflow: hidden;
+}
+
+/* background */
+html {
+    background: linear-gradient(
+        238deg,
+        rgb(130, 255, 0) 0%,
+        rgb(0, 84, 166) 100%
+    );
+    animation: move 20s infinite linear;
+}
+
+body {
+    background: linear-gradient(
+        238deg,
+        rgb(33, 200, 69) 0%,
+        rgb(0, 0, 100) 100%
+    );
+    mix-blend-mode: overlay;
+    animation: move 30s infinite linear;
+}
+
+#main-content {
+    background: linear-gradient(
+        238deg,
+        rgb(200, 255, 255) 48%,
+        rgb(3, 0, 151) 100%
+    );
+    mix-blend-mode: multiply;
+    animation: move 40s infinite linear;
+}
+
+#default-variant-container {
+    background: radial-gradient(
+        100% 85% at 0% 100%,
+        rgb(0, 0, 0) 0%,
+        rgb(0, 131, 255) 50%,
+        rgb(255, 0, 0) 100%
+    );
+    mix-blend-mode: difference;
+    animation: move 50s infinite linear;
+}
+
+/* div:nth-child(5) {
+    background: radial-gradient(
+        100% 225% at 0% 100%,
+        rgb(255, 0, 0) 0%,
+        rgb(66, 255, 0) 100%
+    );
+    mix-blend-mode: difference;
+    animation: move 60s infinite linear;
+}
+
+div:nth-child(6) {
+    background: radial-gradient(
+        100% 140% at 100% 0%,
+        rgb(0, 134, 62) 0%,
+        rgb(0, 239, 255) 50%,
+        rgb(0, 113, 186) 100%
+    );
+    mix-blend-mode: overlay;
+    animation: move 70s infinite linear;
+} */
+
+@keyframes move {
+    0% {
+        filter: unset;
+    }
+
+    100% {
+        filter: hue-rotate(360deg);
+    }
+}
+
