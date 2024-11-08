@@ -234,10 +234,41 @@ div.User.container>div.row>div.col-sm-4>h2 {
     overflow-x: hidden !important;
 }
 
+/* scroll */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 1px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    background: #535353;
+}
+
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    background: #ededed;
+}
+
 /* bg */
+body {
+    overflow-y: hidden;
+}
+
 #main-content {
-    height: 100%;
+    height: 100vh;
+    overflow-y: scroll;
     background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%) !important;
+}
+
+#default-variant-container {
+    background: none !important;
+}
+
+.NavBar {
+    background: none !important;
 }
 
 #default-variant-container>header>nav>section:nth-child(3)>a {
