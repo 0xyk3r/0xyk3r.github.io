@@ -134,6 +134,14 @@ h4 {
     min-height: 100vh;
 }
 
+#default-variant-container > div.User.container > div.row > div.col-sm-4 > div:nth-child(1) > div {
+    background-color: #000000;
+    border: solid;
+    border-color: #8f00ff;
+    border-radius: 10px;
+    padding: 15px;
+}
+
 h1, h2, h3, h4, h5, h6, span {
     animation:rainbowText 2s infinite;
 }
@@ -146,3 +154,22 @@ h1, h2, h3, h4, h5, h6, span {
     83%  {  color: #A800FF; }
     100% {  color: #FF0900; }
 }
+
+.PlayerIcon {
+    border-radius: 100%;
+    animation: rotate 2s linear infinite;
+}
+
+#default-variant-container > div.User.container > div.row > div.col-sm-4 > div:nth-child(1) > div > div > a > img {
+    border-radius: 100%;
+    animation: rotate 2s linear infinite;
+}
+
+@keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
