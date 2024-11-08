@@ -458,27 +458,3 @@ body {
         filter: hue-rotate(360deg);
     }
 }
-
-/* card */
-.Card {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 60px;
-    width: 160px;
-    box-shadow: 0 0 10px 0 #000;
-    border-radius: 15px;
-    background: linear-gradient(135deg, rgb(1, 255, 234), rgb(255, 251, 14), rgb(0, 238, 255));
-    animation: color 3s linear infinite;
-    transition: all 0.5s;
-}
-
-.Card:hover {
-    box-shadow: 0 0 20px 0 #000;
-}
-
-@keyframes color {
-    to {
-        filter: hue-rotate(360deg);
-    }
-}
