@@ -25,29 +25,23 @@ h4 {
     color: #228B22;
 }
 
+.profile-card {
+    margin-bottom: 60px;
+}
+
 .ratings-row {
     display: none !important;
 }
 
 .ratings-container {
-    background-color: #000000;
-    border: solid;
-    border-color: #8f00ff;
-    border-radius: 10px;
-    padding: 15px;
+    padding: 15px !important;
+    margin: auto 0 !important;
+    background-color: #ffffff11 !important;
+    border-radius: 25px !important;
 }
 
 .rating-entry {
     color: #e168ff;
-}
-
-.avatar-container {
-    background-color: #000000;
-    border: solid;
-    border-color: #8f00ff;
-    border-radius: 10px;
-    padding: 5px;
-    margin-bottom: 10px;
 }
 
 .avatar-container .Player-username {
