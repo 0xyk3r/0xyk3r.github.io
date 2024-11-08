@@ -6,7 +6,7 @@ body {
 .container {
     padding: 25px 100px !important;
     max-width: none !important;
-    background: linear-gradient(to bottom right, #000000, #0b040c, #13091a, #181029, #1a1936, #1a2441, #183049, #153c4d, #14494e, #16554a, #1a6045, #236a3d, #307136, #407631, #53792e, #697a30 ,#7f7a36, #957941, #a97851, #ba7964, #c77a7b, #cf7e92, #d384a9, #d48cbf, #d196d1, #cda2e0, #c8afea, #c3bcf0, #c1caf3, #c2d6f2, #c5e0f1, #cde9ef, #d7f1ee, #e4f6f0, #f1fbf5, #ffffff) !important;
+    background: linear-gradient(to bottom right, #000000, #0b040c, #13091a, #181029, #1a1936, #1a2441, #183049, #153c4d, #14494e, #16554a, #1a6045, #236a3d, #307136, #407631, #53792e, #697a30, #7f7a36, #957941, #a97851, #ba7964, #c77a7b, #cf7e92, #d384a9, #d48cbf, #d196d1, #cda2e0, #c8afea, #c3bcf0, #c1caf3, #c2d6f2, #c5e0f1, #cde9ef, #d7f1ee, #e4f6f0, #f1fbf5, #ffffff) !important;
 }
 
 h1 {
@@ -106,15 +106,15 @@ h4 {
     color: #228B22;
 }
 
-#default-variant-container > div.User.container > div.row > div.col-sm-8 > div:nth-child(3) {
+#default-variant-container>div.User.container>div.row>div.col-sm-8>div:nth-child(3) {
     display: none;
 }
 
-#default-variant-container > div.User.container > div.row > div.col-sm-8 > div.Card {
+#default-variant-container>div.User.container>div.row>div.col-sm-8>div.Card {
     display: none;
 }
 
-#default-variant-container > div.User.container > div.row > div.col-sm-8 > div:nth-child(2) > div > div {
+#default-variant-container>div.User.container>div.row>div.col-sm-8>div:nth-child(2)>div>div {
     background-color: #000000;
     border: solid;
     border-color: #8f00ff;
@@ -122,7 +122,7 @@ h4 {
     padding: 15px;
 }
 
-#default-variant-container > div.User.container > div.row > div.col-sm-4 > div.Card.activity-card {
+#default-variant-container>div.User.container>div.row>div.col-sm-4>div.Card.activity-card {
     background-color: #000000;
     border: solid;
     border-color: #8f00ff;
@@ -130,11 +130,11 @@ h4 {
     padding: 15px;
 }
 
-#default-variant-container > div.User.container {
+#default-variant-container>div.User.container {
     min-height: 100vh;
 }
 
-#default-variant-container > div.User.container > div.row > div.col-sm-4 > div:nth-child(1) > div {
+#default-variant-container>div.User.container>div.row>div.col-sm-4>div:nth-child(1)>div {
     background-color: #000000;
     border: solid;
     border-color: #8f00ff;
@@ -142,17 +142,44 @@ h4 {
     padding: 15px;
 }
 
-h1, h2, h3, h4, h5, h6, span {
-    animation:rainbowText 2s infinite;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span {
+    animation: rainbowText 2s infinite;
 }
-@keyframes rainbowText{
-    0%   {  color: #FF0900; }
-    17%  {  color: #FF7F00; }
-    33%  {  color: #FFEF00; }
-    50%  {  color: #00F11D; }
-    67%  {  color: #0079FF; }
-    83%  {  color: #A800FF; }
-    100% {  color: #FF0900; }
+
+@keyframes rainbowText {
+    0% {
+        color: #FF0900;
+    }
+
+    17% {
+        color: #FF7F00;
+    }
+
+    33% {
+        color: #FFEF00;
+    }
+
+    50% {
+        color: #00F11D;
+    }
+
+    67% {
+        color: #0079FF;
+    }
+
+    83% {
+        color: #A800FF;
+    }
+
+    100% {
+        color: #FF0900;
+    }
 }
 
 .PlayerIcon {
@@ -160,16 +187,27 @@ h1, h2, h3, h4, h5, h6, span {
     animation: rotate 2s linear infinite;
 }
 
-#default-variant-container > div.User.container > div.row > div.col-sm-4 > div:nth-child(1) > div > div > a > img {
+#default-variant-container>div.User.container>div.row>div.col-sm-4>div:nth-child(1)>div>div>a>img {
     border-radius: 100%;
     animation: rotate 2s linear infinite;
 }
 
 @keyframes rotate {
     from {
-      transform: rotate(0deg);
+        transform: rotate(0deg);
     }
+
     to {
-      transform: rotate(360deg);
+        transform: rotate(360deg);
     }
-  }
+}
+
+.website-url a {
+    animation: rainbowText 2s infinite;
+    font-family: "Comic Sans MS", cursive, serif;
+}
+
+.website-url a:hover {
+    color: unset !important;
+    text-decoration: none !important;
+}
