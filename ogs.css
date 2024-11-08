@@ -227,6 +227,10 @@ div.User.container>div.row>div.col-sm-4>h2 {
     text-decoration: none !important;
 }
 
+.game-history-table>thead {
+    display: none;
+}
+
 .game-history-table>div:nth-child(2) {
     overflow: hidden;
 }
@@ -457,4 +461,21 @@ body {
     100% {
         filter: hue-rotate(360deg);
     }
+}
+
+/* table */
+tr:has(td.library-won-result-vs-stronger) {
+    background-color: #71c358;
+}
+
+tr:has(td.library-won-result-vs-weaker) {
+    background-color: #3a7329;
+}
+
+tr:has(td.library-lost-result-vs-stronger) {
+    background-color: #b25897;
+}
+
+tr:has(td.library-lost-result-vs-weaker) {
+    background-color: #5f2b4f;
 }
