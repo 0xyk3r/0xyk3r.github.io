@@ -241,7 +241,21 @@ div.User.container>div.row>div.col-sm-4>h2 {
     background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%) !important;
 }
 
+#default-variant-container > header > nav > section:nth-child(3) > a {
+    display: none;
+}
+
+#default-variant-container > header > nav > section:nth-child(4) > a {
+    display: none;
+}
+
+#default-variant-container > header > nav > section:nth-child(5) > a {
+    display: none;
+}
+
 #default-variant-container > header > nav > section:nth-child(3) {
+    position: absolute;
+    left: 0;
     width: 1px;
     height: 1px;
     background-color: transparent;
@@ -260,6 +274,8 @@ div.User.container>div.row>div.col-sm-4>h2 {
 }
 
 #default-variant-container > header > nav > section:nth-child(4) {
+    position: absolute;
+    left: 0;
     width: 2px;
     height: 2px;
     background: transparent;
@@ -278,6 +294,8 @@ div.User.container>div.row>div.col-sm-4>h2 {
 }
 
 #default-variant-container > header > nav > section:nth-child(5) {
+    position: absolute;
+    left: 0;
     width: 3px;
     height: 3px;
     background: transparent;
