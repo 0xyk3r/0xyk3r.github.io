@@ -11,9 +11,12 @@
     --color-border: #424245;
     --color-success: #30d158;
 
-    /* 渐变色 */
+    /* 渐变色 - 增强版 */
     --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     --gradient-accent: linear-gradient(135deg, #0071e3 0%, #00a3ff 100%);
+    --gradient-glow: linear-gradient(135deg, rgba(102, 126, 234, 0.2) 0%, rgba(118, 75, 162, 0.2) 100%);
+    --gradient-vibrant: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    --gradient-blue: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
 
     /* 间距 */
     --spacing-xs: 0.5rem;
@@ -27,10 +30,12 @@
     --transition-normal: 0.4s;
     --transition-slow: 0.6s;
 
-    /* 阴影 */
+    /* 阴影 - 增强版 */
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
     --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
     --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.5);
+    --shadow-glow: 0 0 20px rgba(102, 126, 234, 0.3), 0 0 40px rgba(102, 126, 234, 0.2);
+    --shadow-glow-strong: 0 0 30px rgba(102, 126, 234, 0.5), 0 0 60px rgba(102, 126, 234, 0.3);
 }
 
 * {
@@ -53,6 +58,10 @@ body {
     line-height: 1.6;
     overflow: hidden;
     height: 100%;
+    /* 性能优化 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
 }
 
 /* ==================== Swiper 整屏滚动容器 ==================== */
@@ -222,11 +231,14 @@ section {
     -webkit-backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--color-border);
     transition: all var(--transition-normal);
+    will-change: transform, background;
+    transform: translateZ(0);
 }
 
 .navbar.scrolled {
     background: rgba(10, 10, 10, 0.95);
     box-shadow: var(--shadow-sm);
+    border-bottom-color: rgba(102, 126, 234, 0.3);
 }
 
 .nav-container {
@@ -353,12 +365,14 @@ section {
     font-size: 5rem;
     font-weight: 800;
     background: var(--gradient-primary);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
     margin-bottom: var(--spacing-md);
-    animation: fadeInUp 1s ease 0.2s forwards;
+    animation: fadeInUp 1s ease 0.2s forwards, gradient-shift 3s ease infinite;
     opacity: 0;
+    filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.3));
 }
 
 .hero-subtitle {
@@ -385,6 +399,25 @@ section {
     font-size: 1rem;
     transition: all var(--transition-normal);
     display: inline-block;
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+}
+
+.btn:hover::before {
+    transform: translateX(100%);
 }
 
 .btn-primary {
@@ -394,19 +427,30 @@ section {
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(0, 113, 227, 0.5);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(0, 113, 227, 0.6), var(--shadow-glow);
+}
+
+.btn-primary:active {
+    transform: translateY(-1px) scale(0.98);
 }
 
 .btn-secondary {
-    background: transparent;
+    background: rgba(26, 26, 26, 0.5);
     color: var(--color-text-primary);
     border: 2px solid var(--color-border);
+    backdrop-filter: blur(10px);
 }
 
 .btn-secondary:hover {
     border-color: var(--color-accent-primary);
-    transform: translateY(-2px);
+    background: rgba(0, 113, 227, 0.1);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 4px 20px rgba(0, 113, 227, 0.3);
+}
+
+.btn-secondary:active {
+    transform: translateY(-1px) scale(0.98);
 }
 
 .floating-code {
@@ -465,8 +509,11 @@ section {
     width: 60px;
     height: 4px;
     background: var(--gradient-accent);
+    background-size: 200% auto;
     margin: 0 auto;
     border-radius: 2px;
+    animation: gradient-shift 2s ease infinite;
+    box-shadow: 0 0 15px rgba(0, 113, 227, 0.5);
 }
 
 /* ==================== 关于我 ==================== */
@@ -510,9 +557,12 @@ section {
     font-size: 3rem;
     font-weight: 700;
     background: var(--gradient-primary);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    animation: gradient-shift 3s ease infinite;
+    filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.3));
 }
 
 .stat-label {
@@ -538,21 +588,46 @@ section {
 .profile-card {
     width: 300px;
     height: 300px;
-    background: var(--color-bg-tertiary);
+    background: linear-gradient(135deg, rgba(42, 42, 42, 0.8) 0%, rgba(26, 26, 26, 0.9) 100%);
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: var(--shadow-lg);
-    transition: transform var(--transition-normal);
+    transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+    border: 1px solid var(--color-border);
+    position: relative;
+    overflow: hidden;
+}
+
+.profile-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
 }
 
 .profile-card:hover {
-    transform: translateY(-10px) rotate(2deg);
+    transform: translateY(-10px) rotate(2deg) scale(1.02);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
+    border-color: var(--color-accent-primary);
+}
+
+.profile-card:hover::before {
+    opacity: 1;
 }
 
 .profile-icon {
     font-size: 8rem;
+    transition: transform var(--transition-normal);
+    filter: drop-shadow(0 0 0 transparent);
+}
+
+.profile-card:hover .profile-icon {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.5));
 }
 
 /* ==================== 技能 ==================== */
@@ -563,13 +638,44 @@ section {
 }
 
 .skill-card {
-    background: var(--color-bg-secondary);
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(42, 42, 42, 0.5) 100%);
     padding: var(--spacing-md);
     border-radius: 16px;
     border: 1px solid var(--color-border);
     transition: all var(--transition-normal);
     opacity: 0;
     transform: translateY(30px);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    will-change: transform, box-shadow;
+}
+
+.skill-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--gradient-glow);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    border-radius: 16px;
+    z-index: -1;
+}
+
+.skill-card::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+    transform: rotate(0deg);
+    transition: transform 0.6s ease;
+    opacity: 0;
 }
 
 .skill-card.visible {
@@ -578,14 +684,31 @@ section {
 }
 
 .skill-card:hover {
-    transform: translateY(-10px);
+    transform: translateY(-12px) scale(1.02);
     border-color: var(--color-accent-primary);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-md), var(--shadow-glow);
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.95) 0%, rgba(42, 42, 42, 0.7) 100%);
+}
+
+.skill-card:hover::before {
+    opacity: 1;
+}
+
+.skill-card:hover::after {
+    opacity: 1;
+    transform: rotate(180deg);
 }
 
 .skill-icon {
     font-size: 3rem;
     margin-bottom: var(--spacing-sm);
+    transition: transform var(--transition-normal), filter var(--transition-normal);
+    display: inline-block;
+}
+
+.skill-card:hover .skill-icon {
+    transform: scale(1.1) rotate(5deg);
+    filter: drop-shadow(0 0 15px rgba(102, 126, 234, 0.5));
 }
 
 .skill-title {
@@ -603,14 +726,52 @@ section {
     background: var(--color-bg-tertiary);
     border-radius: 4px;
     overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.skill-bar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    animation: skill-shimmer 2s infinite;
+}
+
+@keyframes skill-shimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
 }
 
 .skill-progress {
     height: 100%;
     background: var(--gradient-accent);
+    background-size: 200% auto;
     border-radius: 4px;
     width: 0;
     transition: width 1s ease;
+    position: relative;
+    overflow: hidden;
+    animation: gradient-shift 3s ease infinite;
+    box-shadow: 0 0 10px rgba(0, 113, 227, 0.5);
+}
+
+.skill-progress::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0.3), transparent);
+    border-radius: 4px 4px 0 0;
 }
 
 /* ==================== 项目 ==================== */
@@ -640,7 +801,7 @@ section {
 
 /* 项目卡片样式 */
 .project-card {
-    background: var(--color-bg-primary);
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.8) 100%);
     border-radius: 16px;
     overflow: visible;
     border: 1px solid var(--color-border);
@@ -652,18 +813,47 @@ section {
     flex-direction: column;
     position: relative;
     z-index: 1;
+    backdrop-filter: blur(10px);
+    will-change: transform, box-shadow;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: var(--gradient-accent);
+    border-radius: 16px;
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+    z-index: -1;
 }
 
 .project-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    box-shadow: var(--shadow-lg);
-    border-color: var(--color-accent-primary);
+    transform: translateY(-12px) scale(1.03);
+    box-shadow: var(--shadow-lg), var(--shadow-glow-strong);
+    border-color: transparent;
     z-index: 10;
+    background: linear-gradient(135deg, rgba(10, 10, 10, 1) 0%, rgba(26, 26, 26, 0.95) 100%);
+}
+
+.project-card:hover::before {
+    opacity: 0.5;
+    animation: rotate-border 3s linear infinite;
+}
+
+@keyframes rotate-border {
+    0% {
+        filter: hue-rotate(0deg);
+    }
+    100% {
+        filter: hue-rotate(360deg);
+    }
 }
 
 .project-image {
     height: 220px;
     background: var(--color-bg-tertiary);
+    border-radius: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -674,11 +864,23 @@ section {
 
 .project-placeholder {
     font-size: 5rem;
-    transition: transform var(--transition-normal);
+    transition: transform var(--transition-normal), filter var(--transition-normal);
+    filter: drop-shadow(0 0 0 transparent);
 }
 
 .project-card:hover .project-placeholder {
-    transform: scale(1.2) rotate(10deg);
+    transform: scale(1.3) rotate(15deg);
+    filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.6));
+    animation: float-emoji 2s ease-in-out infinite;
+}
+
+@keyframes float-emoji {
+    0%, 100% {
+        transform: scale(1.3) rotate(15deg) translateY(0);
+    }
+    50% {
+        transform: scale(1.3) rotate(15deg) translateY(-10px);
+    }
 }
 
 .project-content {
@@ -709,19 +911,39 @@ section {
 
 .tag {
     padding: 0.4rem 0.8rem;
-    background: var(--color-bg-tertiary);
+    background: rgba(42, 42, 42, 0.8);
     color: var(--color-accent-secondary);
     border-radius: 20px;
     font-size: 0.85rem;
     font-weight: 500;
     text-decoration: none;
     transition: all var(--transition-fast);
+    border: 1px solid transparent;
+    position: relative;
+    overflow: hidden;
+}
+
+.tag::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
 }
 
 .tag:hover {
-    background: var(--color-accent-primary);
+    background: var(--gradient-accent);
     color: white;
-    transform: translateY(-2px);
+    transform: translateY(-2px) scale(1.05);
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 113, 227, 0.4);
+}
+
+.tag:hover::before {
+    left: 100%;
 }
 
 /* 项目导航按钮 */
@@ -729,19 +951,22 @@ section {
 .projects-button-next {
     width: 44px;
     height: 44px;
-    background: var(--color-bg-tertiary);
+    background: linear-gradient(135deg, rgba(42, 42, 42, 0.9) 0%, rgba(26, 26, 26, 0.8) 100%);
     border-radius: 50%;
     color: var(--color-text-primary);
     transition: all var(--transition-normal);
     border: 1px solid var(--color-border);
     z-index: 20;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-sm);
 }
 
 .projects-button-prev:hover,
 .projects-button-next:hover {
-    background: var(--color-accent-primary);
-    border-color: var(--color-accent-primary);
-    transform: scale(1.1);
+    background: var(--gradient-accent);
+    border-color: transparent;
+    transform: scale(1.15);
+    box-shadow: var(--shadow-md), var(--shadow-glow);
 }
 
 .projects-button-prev::after,
@@ -847,22 +1072,49 @@ section {
     align-items: center;
     gap: var(--spacing-xs);
     padding: 1rem 2rem;
-    background: var(--color-bg-secondary);
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.9) 0%, rgba(42, 42, 42, 0.6) 100%);
     border: 1px solid var(--color-border);
     border-radius: 50px;
     color: var(--color-text-primary);
     text-decoration: none;
     transition: all var(--transition-normal);
+    backdrop-filter: blur(10px);
+    position: relative;
+    overflow: hidden;
+}
+
+.contact-link::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: radial-gradient(circle, rgba(102, 126, 234, 0.3) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    border-radius: 50%;
 }
 
 .contact-link:hover {
-    transform: translateY(-4px);
+    transform: translateY(-5px) scale(1.02);
     border-color: var(--color-accent-primary);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-md), 0 0 20px rgba(102, 126, 234, 0.4);
+    background: linear-gradient(135deg, rgba(26, 26, 26, 1) 0%, rgba(42, 42, 42, 0.8) 100%);
+}
+
+.contact-link:hover::before {
+    width: 300px;
+    height: 300px;
 }
 
 .contact-icon {
     font-size: 1.5rem;
+    transition: transform var(--transition-normal);
+}
+
+.contact-link:hover .contact-icon {
+    transform: scale(1.2) rotate(10deg);
 }
 
 /* ==================== 页脚 ==================== */
@@ -1389,11 +1641,37 @@ section {
     animation: gradient-shift 3s linear infinite;
 }
 
+/* ==================== 页面加载闪光效果 ==================== */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(102, 126, 234, 0.15), transparent);
+    z-index: 9999;
+    pointer-events: none;
+    animation: page-shine 2.5s ease 0.5s;
+}
+
+@keyframes page-shine {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
 @keyframes gradient-shift {
     0% {
         background-position: 0% center;
     }
+    50% {
+        background-position: 100% center;
+    }
     100% {
-        background-position: 200% center;
+        background-position: 0% center;
     }
 }

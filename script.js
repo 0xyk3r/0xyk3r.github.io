@@ -252,10 +252,10 @@ function setupIntersectionObserver() {
 
 // ==================== 交互效果设置 ====================
 function setupInteractiveEffects() {
-    // 技能卡片3D效果
+    // 技能卡片3D效果 - 优化版
     const skillCards = document.querySelectorAll('.skill-card');
     skillCards.forEach(card => {
-        card.addEventListener('mousemove', function(e) {
+        card.addEventListener('mousemove', throttle(function(e) {
             const rect = this.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
@@ -263,39 +263,65 @@ function setupInteractiveEffects() {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
 
-            const rotateX = (y - centerY) / 10;
-            const rotateY = (centerX - x) / 10;
+            const rotateX = (y - centerY) / 15;
+            const rotateY = (centerX - x) / 15;
 
-            this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-        });
+            this.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px) scale(1.02)`;
+        }, 16));
 
         card.addEventListener('mouseleave', function() {
-            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+            this.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0) scale(1)';
         });
     });
 
-    // 项目卡片悬停效果
+    // 项目卡片悬停效果 - 增强版
     const projectCards = document.querySelectorAll('.project-card');
     projectCards.forEach(card => {
-        card.addEventListener('mouseenter', function() {
-            const placeholder = this.querySelector('.project-placeholder');
-            if (placeholder) {
-                placeholder.style.transform = 'scale(1.2) rotate(10deg)';
-            }
-        });
+        card.addEventListener('mousemove', throttle(function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = (y - centerY) / 30;
+            const rotateY = (centerX - x) / 30;
+
+            this.style.transform = `translateY(-12px) scale(1.03) perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        }, 16));
 
         card.addEventListener('mouseleave', function() {
-            const placeholder = this.querySelector('.project-placeholder');
-            if (placeholder) {
-                placeholder.style.transform = 'scale(1) rotate(0deg)';
-            }
+            this.style.transform = 'translateY(0) scale(1) perspective(1000px) rotateX(0) rotateY(0)';
         });
     });
 
-    // 按钮点击效果
+    // 按钮点击效果 - 增强版
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach(btn => {
+        // 添加涟漪效果
         btn.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            const rect = this.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.5);
+                width: ${size}px;
+                height: ${size}px;
+                top: ${y}px;
+                left: ${x}px;
+                animation: btn-ripple 0.6s ease-out;
+                pointer-events: none;
+            `;
+
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+
             // 如果是内部链接，使用 Swiper 导航
             const href = this.getAttribute('href');
             if (href && href.startsWith('#')) {
@@ -309,6 +335,18 @@ function setupInteractiveEffects() {
             }
         });
     });
+
+    // 添加按钮涟漪动画
+    const btnStyle = document.createElement('style');
+    btnStyle.textContent = `
+        @keyframes btn-ripple {
+            to {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(btnStyle);
 }
 
 // ==================== 自定义鼠标光标 ====================
@@ -472,16 +510,15 @@ window.addEventListener('load', () => {
 });
 
 // ==================== 性能优化 ====================
-// 节流函数
+// 节流函数 - 优化版
 function throttle(func, wait) {
-    let timeout;
+    let lastTime = 0;
     return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
+        const now = Date.now();
+        if (now - lastTime >= wait) {
+            lastTime = now;
+            func.apply(this, args);
+        }
     };
 }
 
@@ -632,16 +669,37 @@ function setupCursorGlow() {
     const cursorGlow = document.getElementById('cursor-glow');
     if (!cursorGlow) return;
 
-    // 直接跟随鼠标，无缓动效果
+    let mouseX = 0;
+    let mouseY = 0;
+    let glowX = 0;
+    let glowY = 0;
+
+    // 平滑跟随鼠标
     document.addEventListener('mousemove', (e) => {
-        cursorGlow.style.left = e.clientX + 'px';
-        cursorGlow.style.top = e.clientY + 'px';
+        mouseX = e.clientX;
+        mouseY = e.clientY;
         cursorGlow.style.opacity = '1';
     });
 
     document.addEventListener('mouseleave', () => {
         cursorGlow.style.opacity = '0';
     });
+
+    // 使用requestAnimationFrame实现平滑跟随
+    function updateGlowPosition() {
+        const dx = mouseX - glowX;
+        const dy = mouseY - glowY;
+
+        glowX += dx * 0.1;
+        glowY += dy * 0.1;
+
+        cursorGlow.style.left = glowX + 'px';
+        cursorGlow.style.top = glowY + 'px';
+
+        requestAnimationFrame(updateGlowPosition);
+    }
+
+    updateGlowPosition();
 }
 
 // ==================== 滚动进度条 ====================
@@ -660,15 +718,49 @@ function setupProjectCardEffects() {
     const projectCards = document.querySelectorAll('.project-card');
 
     projectCards.forEach(card => {
-        card.addEventListener('mousemove', function(e) {
+        card.addEventListener('mousemove', throttle(function(e) {
             const rect = this.getBoundingClientRect();
             const x = ((e.clientX - rect.left) / rect.width) * 100;
             const y = ((e.clientY - rect.top) / rect.height) * 100;
 
             this.style.setProperty('--mouse-x', x + '%');
             this.style.setProperty('--mouse-y', y + '%');
+        }, 16));
+
+        // 添加点击涟漪效果
+        card.addEventListener('click', function(e) {
+            const ripple = document.createElement('div');
+            ripple.style.cssText = `
+                position: absolute;
+                border-radius: 50%;
+                background: radial-gradient(circle, rgba(102, 126, 234, 0.5) 0%, transparent 70%);
+                width: 0;
+                height: 0;
+                top: ${e.clientY - this.getBoundingClientRect().top}px;
+                left: ${e.clientX - this.getBoundingClientRect().left}px;
+                transform: translate(-50%, -50%);
+                animation: ripple-effect 0.6s ease-out;
+                pointer-events: none;
+                z-index: 100;
+            `;
+
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
         });
     });
+
+    // 添加涟漪动画
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes ripple-effect {
+            to {
+                width: 500px;
+                height: 500px;
+                opacity: 0;
+            }
+        }
+    `;
+    document.head.appendChild(style);
 }
 
 // ==================== 视差滚动效果 ====================
@@ -708,6 +800,28 @@ function initVisualEffects() {
     setupScrollProgress();
     setupProjectCardEffects();
     setupParallaxEffects();
+
+    // 添加平滑滚动
+    addSmoothScrolling();
+}
+
+// ==================== 添加平滑滚动效果 ====================
+function addSmoothScrolling() {
+    // 为所有内部链接添加平滑滚动
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            const href = this.getAttribute('href');
+            if (href && href !== '#') {
+                e.preventDefault();
+                const sections = ['home', 'about', 'skills', 'projects', 'contact'];
+                const targetId = href.substring(1);
+                const index = sections.indexOf(targetId);
+                if (index >= 0 && swiperInstance) {
+                    swiperInstance.slideTo(index, 800);
+                }
+            }
+        });
+    });
 }
 
 // 在页面加载完成后初始化
@@ -750,7 +864,54 @@ document.addEventListener('visibilitychange', () => {
     }
 });
 
+// ==================== 添加页面加载完成提示 ====================
+window.addEventListener('load', () => {
+    // 添加加载完成的视觉反馈
+    setTimeout(() => {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.9) 0%, rgba(118, 75, 162, 0.9) 100%);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            z-index: 10000;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: slide-up 0.5s ease forwards, fade-out-notification 0.5s ease 3s forwards;
+            backdrop-filter: blur(10px);
+        `;
+        notification.textContent = '✨ 页面加载完成';
+        document.body.appendChild(notification);
+
+        const notifStyle = document.createElement('style');
+        notifStyle.textContent = `
+            @keyframes slide-up {
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fade-out-notification {
+                to {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+            }
+        `;
+        document.head.appendChild(notifStyle);
+
+        setTimeout(() => notification.remove(), 3500);
+    }, 1000);
+});
+
 // ==================== 控制台输出 ====================
 console.log('%c🚀 Portfolio loaded successfully!', 'color: #667eea; font-size: 16px; font-weight: bold;');
 console.log('%c✨ Powered by Swiper.js', 'color: #00a3ff; font-size: 12px;');
 console.log('%c💻 Designed & Developed by 0xyk3r', 'color: #30d158; font-size: 12px;');
+console.log('%c⚡ Optimized for performance', 'color: #f5576c; font-size: 12px;');
