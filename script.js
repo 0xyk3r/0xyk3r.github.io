@@ -198,7 +198,7 @@ cursorStyle.textContent = `
         position: fixed;
         pointer-events: none;
         z-index: 9999;
-        transition: all 0.1s ease;
+        transition: all 0.01s ease;
         transform: translate(-50%, -50%);
         display: none;
     }
