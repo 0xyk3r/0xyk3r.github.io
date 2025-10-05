@@ -1,9 +1,9 @@
 /* ==========================================
-   CYBERPUNK NEON THEME - OGS Profile
-   赛博朋克霓虹主题
+   CYBERPUNK MATRIX THEME V3 - OGS Profile
+   黑客帝国赛博朋克主题 - 完美版
    ========================================== */
 
-/* === 基础设置 === */
+/* === 基础重置 === */
 * {
     margin: 0;
     padding: 0;
@@ -12,29 +12,22 @@
 
 body {
     font-family: 'Courier New', monospace;
-    background: #0a0e27 !important;
+    background: #000 !important;
     color: #00ff41;
     overflow-x: hidden;
 }
 
-/* === 主容器布局重构 === */
-.container {
-    position: relative;
-    max-width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-/* === 霓虹背景 === */
+/* === 主背景 === */
 #main-content {
     position: relative;
     min-height: 100vh !important;
-    background: linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #16213e 100%) !important;
+    background:
+        radial-gradient(ellipse at center, #001a0d 0%, #000000 100%) !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
 }
 
-/* 动态网格背景 */
+/* 矩阵网格 */
 #main-content::before {
     content: '';
     position: fixed;
@@ -43,42 +36,33 @@ body {
     width: 100%;
     height: 100%;
     background-image:
-        linear-gradient(0deg, transparent 24%, rgba(0, 255, 65, .05) 25%, rgba(0, 255, 65, .05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 65, .05) 75%, rgba(0, 255, 65, .05) 76%, transparent 77%, transparent),
-        linear-gradient(90deg, transparent 24%, rgba(0, 255, 65, .05) 25%, rgba(0, 255, 65, .05) 26%, transparent 27%, transparent 74%, rgba(0, 255, 65, .05) 75%, rgba(0, 255, 65, .05) 76%, transparent 77%, transparent);
-    background-size: 50px 50px;
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 65, 0.03) 2px, rgba(0, 255, 65, 0.03) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(0, 255, 65, 0.03) 2px, rgba(0, 255, 65, 0.03) 4px);
     pointer-events: none;
     z-index: 0;
-    animation: gridMove 20s linear infinite;
 }
 
-@keyframes gridMove {
-    0% { background-position: 0 0; }
-    100% { background-position: 50px 50px; }
-}
-
-/* 扫描线效果 */
+/* 扫描线 */
 #main-content::after {
     content: '';
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
-    background: repeating-linear-gradient(
-        0deg,
-        rgba(0, 255, 65, 0.03) 0px,
-        rgba(0, 255, 65, 0.03) 1px,
-        transparent 1px,
-        transparent 2px
-    );
+    height: 3px;
+    background: linear-gradient(to bottom,
+        rgba(0, 255, 65, 0) 0%,
+        rgba(0, 255, 65, 0.8) 50%,
+        rgba(0, 255, 65, 0) 100%);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.8);
     pointer-events: none;
-    z-index: 1;
-    animation: scanline 8s linear infinite;
+    z-index: 999;
+    animation: scanline 4s linear infinite;
 }
 
 @keyframes scanline {
     0% { transform: translateY(0); }
-    100% { transform: translateY(100%); }
+    100% { transform: translateY(100vh); }
 }
 
 #default-variant-container {
@@ -89,252 +73,712 @@ body {
 
 /* === 导航栏 === */
 .NavBar {
-    background: rgba(10, 14, 39, 0.8) !important;
+    background: rgba(0, 0, 0, 0.95) !important;
     backdrop-filter: blur(10px);
     border-bottom: 2px solid #00ff41;
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+    box-shadow:
+        0 0 20px rgba(0, 255, 65, 0.5),
+        0 5px 30px rgba(0, 255, 65, 0.2);
+    position: relative;
+    z-index: 200 !important;
 }
 
-/* === 用户资料卡片 - 全新布局 === */
-div.User.container {
-    display: grid !important;
-    grid-template-columns: 1fr;
-    gap: 30px;
-    padding: 40px 20px !important;
-    min-height: 100vh;
+.NavBar::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        #00ff41 10%,
+        #00d4ff 50%,
+        #00ff41 90%,
+        transparent 100%);
+    animation: navGlow 3s ease-in-out infinite;
 }
 
-div.User.container > div.row {
-    display: grid !important;
-    grid-template-columns: 400px 1fr;
-    gap: 30px;
-    align-items: start;
-    width: 100% !important;
+@keyframes navGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+}
+
+/* 保护导航栏头像 */
+.NavBar .PlayerIcon,
+.NavBar img {
+    clip-path: none !important;
+    border-radius: 50% !important;
+    animation: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    filter: none !important;
+}
+
+/* === 主容器 === */
+.container {
+    max-width: 100% !important;
+    padding: 0 !important;
     margin: 0 !important;
 }
 
-/* === 左侧个人信息区域 === */
+div.User.container {
+    display: block !important;
+    position: relative;
+    padding: 0 !important;
+    min-height: 100vh;
+    width: 100% !important;
+}
+
+div.User.container > div.row {
+    display: block !important;
+    position: relative;
+    width: 100% !important;
+    min-height: 100vh;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* === 左侧栏 === */
 div.User.container > div.row > div.col-sm-4 {
-    position: sticky;
-    top: 20px;
-    max-width: 400px !important;
+    position: fixed !important;
+    left: 0;
+    top: 60px;
+    width: 300px !important;
+    height: calc(100vh - 60px);
+    max-width: 300px !important;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background: linear-gradient(135deg,
+        rgba(0, 25, 12, 0.98) 0%,
+        rgba(0, 15, 8, 0.98) 100%);
+    border-right: 3px solid #00ff41;
+    box-shadow:
+        0 0 40px rgba(0, 255, 65, 0.4),
+        inset -30px 0 60px rgba(0, 255, 65, 0.08);
+    z-index: 150;
+    padding: 0 !important;
     flex: none !important;
 }
 
-/* 个人资料主卡片 */
-div.User.container > div.row > div.col-sm-4 > div:nth-child(1) > div {
-    background: linear-gradient(145deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9)) !important;
-    border: 2px solid #00ff41 !important;
-    border-radius: 0 !important;
-    padding: 0 !important;
-    position: relative;
-    overflow: hidden;
-    box-shadow:
-        0 0 30px rgba(0, 255, 65, 0.3),
-        inset 0 0 50px rgba(0, 255, 65, 0.05);
-    clip-path: polygon(
-        0 0,
-        calc(100% - 20px) 0,
-        100% 20px,
-        100% 100%,
-        20px 100%,
-        0 calc(100% - 20px)
-    );
-}
-
-/* 霓虹边框动画 */
-div.User.container > div.row > div.col-sm-4 > div:nth-child(1) > div::before {
+/* 左侧栏顶部装饰 */
+div.User.container > div.row > div.col-sm-4::before {
     content: '';
     position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, #00ff41, #00d4ff, #ff00ff, #00ff41);
-    background-size: 400% 400%;
-    z-index: -1;
-    border-radius: 0;
-    animation: neonBorder 4s ease infinite;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg,
+        #00ff41 0%,
+        #00d4ff 50%,
+        #00ff41 100%);
+    background-size: 200% 100%;
+    animation: slideGradient 3s linear infinite;
+    z-index: 1;
+}
+
+@keyframes slideGradient {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 200% 0%; }
+}
+
+/* 左侧栏底部状态 */
+div.User.container > div.row > div.col-sm-4::after {
+    content: '[ SYSTEM_ONLINE ]';
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #00ff41;
+    font-size: 0.65em;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px #00ff41;
     opacity: 0.6;
+    animation: blink 2s infinite;
 }
 
-@keyframes neonBorder {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+/* === 个人资料卡片 === */
+div.User.container > div.row > div.col-sm-4 > div:nth-child(1) > div {
+    background: transparent !important;
+    border: none !important;
+    padding: 20px 12px !important;
+    position: relative;
+    overflow: visible;
+    box-shadow: none !important;
+    clip-path: none !important;
 }
 
-/* 头像容器 */
+div.User.container > div.row > div.col-sm-4 > div:nth-child(1) > div::before {
+    display: none;
+}
+
+/* === 头像区域 === */
 .avatar-container {
     position: relative;
-    padding: 30px;
+    padding: 12px;
     text-align: center;
+    margin-bottom: 20px;
 }
 
-.avatar-container .Player-username {
+.avatar-container > div {
+    position: relative;
+    display: inline-block;
+}
+
+/* 头像 - 强制六边形样式 */
+div.User.container div.avatar-container .PlayerIcon,
+div.User.container div.avatar-container a > img {
+    display: none;
+    width: 130px !important;
+    height: 130px !important;
+    object-fit: cover !important;
+    clip-path: polygon(
+        50% 0%,
+        90% 25%,
+        90% 75%,
+        50% 100%,
+        10% 75%,
+        10% 25%
+    ) !important;
+    border: 3px solid #00ff41 !important;
+    box-shadow:
+        0 0 30px rgba(0, 255, 65, 1),
+        0 0 60px rgba(0, 255, 65, 0.6),
+        0 0 90px rgba(0, 255, 65, 0.3),
+        inset 0 0 30px rgba(0, 255, 65, 0.2) !important;
+    animation: avatarPulse 3s ease-in-out infinite !important;
+    filter: brightness(1.2) contrast(1.2) !important;
+    position: relative;
+    border-radius: 0 !important;
+}
+
+@keyframes avatarPulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow:
+            0 0 30px rgba(0, 255, 65, 1),
+            0 0 60px rgba(0, 255, 65, 0.6),
+            0 0 90px rgba(0, 255, 65, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow:
+            0 0 40px rgba(0, 255, 65, 1),
+            0 0 80px rgba(0, 255, 65, 0.8),
+            0 0 120px rgba(0, 255, 65, 0.5);
+    }
+}
+
+/* 用户名 */
+div.User.container div.avatar-container .Player-username {
     font-family: 'Courier New', monospace !important;
-    font-size: 2.5em !important;
+    font-size: 1.5em !important;
     font-weight: bold !important;
     color: #00ff41 !important;
     text-transform: uppercase;
     letter-spacing: 3px;
     text-shadow:
+        0 0 5px #00ff41,
         0 0 10px #00ff41,
         0 0 20px #00ff41,
-        0 0 30px #00ff41,
-        0 0 40px #00ff41;
-    animation: glitch 3s infinite;
-    margin: 20px 0 !important;
+        0 0 40px #00ff41,
+        2px 2px 0 #00d4ff,
+        -2px -2px 0 #ff00ff;
+    margin: 12px 0 !important;
+    position: relative;
+    display: block;
+    animation: glitchText 5s infinite;
 }
 
-/* 故障效果 */
-@keyframes glitch {
+@keyframes glitchText {
     0%, 90%, 100% {
         transform: translate(0);
+        text-shadow:
+            0 0 5px #00ff41,
+            0 0 10px #00ff41,
+            0 0 20px #00ff41,
+            0 0 40px #00ff41;
     }
-    92% {
-        transform: translate(-2px, 2px);
+    91% {
+        transform: translate(-3px, 3px);
+        text-shadow:
+            0 0 5px #ff00ff,
+            3px 0 10px #00d4ff;
     }
-    94% {
-        transform: translate(2px, -2px);
+    93% {
+        transform: translate(3px, -3px);
+        text-shadow:
+            0 0 5px #00d4ff,
+            -3px 0 10px #ff00ff;
     }
-    96% {
+    95% {
         transform: translate(-2px, -2px);
     }
-    98% {
-        transform: translate(2px, 2px);
-    }
 }
 
-/* 头像图片 - 六边形 */
-.PlayerIcon,
-#default-variant-container > div.User.container > div.row > div.col-sm-4 > div:nth-child(1) > div > div > a > img {
-    width: 180px !important;
-    height: 180px !important;
-    object-fit: cover;
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-    border: 3px solid #00ff41;
-    box-shadow:
-        0 0 20px rgba(0, 255, 65, 0.8),
-        0 0 40px rgba(0, 255, 65, 0.5),
-        inset 0 0 20px rgba(0, 255, 65, 0.2);
-    animation: float 6s ease-in-out infinite, hexRotate 20s linear infinite;
-    filter: brightness(1.2) contrast(1.1);
+/* 终端光标 */
+div.User.container div.avatar-container .Player-username::after {
+    content: '█';
+    animation: blink 1s infinite;
+    margin-left: 5px;
+    color: #00ff41;
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-20px) scale(1.05); }
-}
-
-@keyframes hexRotate {
-    0% { filter: hue-rotate(0deg) brightness(1.2) contrast(1.1); }
-    100% { filter: hue-rotate(360deg) brightness(1.2) contrast(1.1); }
+@keyframes blink {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
 }
 
 /* 国家信息 */
 .country-line {
     font-family: 'Courier New', monospace !important;
     color: #00d4ff !important;
-    font-size: 1.1em;
-    text-shadow: 0 0 10px #00d4ff;
+    font-size: 0.85em;
+    text-shadow:
+        0 0 10px #00d4ff,
+        0 0 20px #00d4ff;
     margin: 10px 0;
-}
-
-/* === 评分容器 === */
-.ratings-container {
-    background: rgba(0, 255, 65, 0.05) !important;
-    border: 1px solid #00ff41 !important;
-    border-radius: 0 !important;
-    padding: 20px !important;
-    margin: 20px 0 !important;
-    position: relative;
-    clip-path: polygon(0 10px, 10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
-}
-
-.ratings-container::before {
-    content: '[ STATS ]';
-    position: absolute;
-    top: -10px;
-    left: 20px;
-    background: #1a1a2e;
-    padding: 0 10px;
-    color: #00ff41;
-    font-size: 0.8em;
     letter-spacing: 2px;
 }
 
-.rating-entry {
-    color: #00ff41 !important;
-    font-family: 'Courier New', monospace;
-    text-shadow: 0 0 5px #00ff41;
-    padding: 5px 0;
-    border-bottom: 1px solid rgba(0, 255, 65, 0.2);
+/* === 隐藏/优化奖杯图标 === */
+/* 隐藏过大的奖杯图标 */
+div.User.container > div.row > div.col-sm-4 svg,
+div.User.container > div.row > div.col-sm-4 .trophy-icon {
+    max-width: 40px !important;
+    max-height: 40px !important;
+    opacity: 0.7;
 }
 
-.rating-entry:last-child {
-    border-bottom: none;
+/* 优化侧边栏内的图标 */
+div.User.container > div.row > div.col-sm-4 img:not(.PlayerIcon):not([src*="avatar"]) {
+    max-width: 50px !important;
+    max-height: 50px !important;
+    opacity: 0.8;
 }
 
-/* === 活动卡片 === */
-#default-variant-container > div.User.container > div.row > div.col-sm-4 > div.Card.activity-card {
-    background: linear-gradient(145deg, rgba(26, 26, 46, 0.8), rgba(22, 33, 62, 0.8)) !important;
-    border: 2px solid #ff00ff !important;
+/* === 评分容器 - 全息数据面板 === */
+.ratings-container {
+    background:
+        linear-gradient(135deg, rgba(0, 40, 20, 0.95) 0%, rgba(0, 20, 10, 0.98) 100%),
+        repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 2px,
+            rgba(0, 255, 65, 0.03) 2px,
+            rgba(0, 255, 65, 0.03) 4px
+        ) !important;
+    border: 2px solid #00ff41 !important;
     border-radius: 0 !important;
-    padding: 20px !important;
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
-    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
-}
-
-/* === 右侧内容区域 === */
-div.User.container > div.row > div.col-sm-8 {
-    flex: 1 !important;
-    max-width: 100% !important;
-}
-
-/* 卡片通用样式 */
-#default-variant-container > div.User.container > div.row > div.col-sm-8 > div.Card {
-    background: linear-gradient(145deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9)) !important;
-    border: 2px solid #00d4ff !important;
-    border-radius: 0 !important;
-    padding: 30px !important;
-    margin-bottom: 30px !important;
+    padding: 20px 12px 12px !important;
+    margin: 18px 10px !important;
     position: relative;
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    box-shadow:
+        0 0 30px rgba(0, 255, 65, 0.4),
+        inset 0 0 40px rgba(0, 255, 65, 0.08),
+        0 5px 15px rgba(0, 0, 0, 0.3);
     clip-path: polygon(
-        0 0,
-        calc(100% - 15px) 0,
-        100% 15px,
-        100% 100%,
-        15px 100%,
-        0 calc(100% - 15px)
+        0 8px,
+        8px 0,
+        100% 0,
+        100% calc(100% - 8px),
+        calc(100% - 8px) 100%,
+        0 100%
     );
 }
 
-/* 关于区域 */
-#default-variant-container > div.User.container > div.row > div.col-sm-8 > div:nth-child(2) > div > div {
-    background: linear-gradient(145deg, rgba(26, 26, 46, 0.9), rgba(22, 33, 62, 0.9)) !important;
+/* 标题区域 */
+.ratings-container::before {
+    content: '>>> RANK_MATRIX.SYS';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(90deg, #00ff41 0%, #00d4ff 100%);
+    padding: 4px 12px;
+    color: #000;
+    font-size: 0.7em;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-shadow: none;
+    font-family: 'Courier New', monospace;
+    z-index: 10;
+    border-bottom: 1px solid rgba(0, 255, 65, 0.5);
+}
+
+/* 动态扫描线 */
+.ratings-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        #00ff41 50%,
+        transparent 100%);
+    box-shadow: 0 0 10px #00ff41;
+    animation: scanHorizontal 3s ease-in-out infinite;
+    z-index: 5;
+}
+
+@keyframes scanHorizontal {
+    0% { left: -100%; top: 25%; }
+    25% { left: 100%; top: 25%; }
+    26% { left: -100%; top: 50%; }
+    50% { left: 100%; top: 50%; }
+    51% { left: -100%; top: 75%; }
+    75% { left: 100%; top: 75%; }
+    100% { left: -100%; top: 25%; }
+}
+
+/* 边框脉冲 */
+.ratings-container {
+    animation: borderGlow 2s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+    0%, 100% {
+        box-shadow:
+            0 0 30px rgba(0, 255, 65, 0.4),
+            inset 0 0 40px rgba(0, 255, 65, 0.08),
+            0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        box-shadow:
+            0 0 50px rgba(0, 255, 65, 0.6),
+            inset 0 0 60px rgba(0, 255, 65, 0.12),
+            0 5px 20px rgba(0, 0, 0, 0.4);
+    }
+}
+
+/* 评分条目 - 数据卡片 */
+.rating-entry {
+    color: #00ff41 !important;
+    font-family: 'Courier New', monospace;
+    font-size: 0.75em;
+    padding: 8px 6px;
+    margin: 4px 0;
+    border: 1px solid rgba(0, 255, 65, 0.3);
+    background: rgba(0, 255, 65, 0.05);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s ease;
+    clip-path: polygon(
+        0 0,
+        calc(100% - 6px) 0,
+        100% 6px,
+        100% 100%,
+        6px 100%,
+        0 calc(100% - 6px)
+    );
+}
+
+/* 为不同棋盘大小设置不同颜色 */
+.rating-entry:nth-child(1) {
+    border-left: 3px solid #00ff41;
+    box-shadow: inset 3px 0 10px rgba(0, 255, 65, 0.3);
+}
+
+.rating-entry:nth-child(2) {
+    border-left: 3px solid #00d4ff;
+    box-shadow: inset 3px 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.rating-entry:nth-child(3) {
+    border-left: 3px solid #ff00ff;
+    box-shadow: inset 3px 0 10px rgba(255, 0, 255, 0.3);
+}
+
+.rating-entry:nth-child(4) {
+    border-left: 3px solid #ffff00;
+    box-shadow: inset 3px 0 10px rgba(255, 255, 0, 0.3);
+}
+
+/* 数据流效果背景 */
+.rating-entry::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 0;
+    height: 100%;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(0, 255, 65, 0.2) 50%,
+        transparent 100%);
+    transition: width 0.4s ease;
+    z-index: 0;
+}
+
+/* 文本层级 */
+.rating-entry > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* 悬停效果 */
+.rating-entry:hover {
+    background: rgba(0, 255, 65, 0.15);
+    border-color: #00ff41;
+    transform: translateX(8px) scale(1.02);
+    box-shadow:
+        0 0 20px rgba(0, 255, 65, 0.5),
+        inset 0 0 20px rgba(0, 255, 65, 0.2);
+    text-shadow: 0 0 10px rgba(0, 255, 65, 1);
+}
+
+.rating-entry:hover::before {
+    width: 100%;
+}
+
+/* 为不同条目添加不同的发光颜色 */
+.rating-entry:nth-child(1):hover {
+    box-shadow:
+        0 0 20px rgba(0, 255, 65, 0.6),
+        inset 0 0 20px rgba(0, 255, 65, 0.3);
+}
+
+.rating-entry:nth-child(2):hover {
+    box-shadow:
+        0 0 20px rgba(0, 212, 255, 0.6),
+        inset 0 0 20px rgba(0, 212, 255, 0.3);
+    text-shadow: 0 0 10px rgba(0, 212, 255, 1);
+}
+
+.rating-entry:nth-child(3):hover {
+    box-shadow:
+        0 0 20px rgba(255, 0, 255, 0.6),
+        inset 0 0 20px rgba(255, 0, 255, 0.3);
+    text-shadow: 0 0 10px rgba(255, 0, 255, 1);
+}
+
+.rating-entry:nth-child(4):hover {
+    box-shadow:
+        0 0 20px rgba(255, 255, 0, 0.6),
+        inset 0 0 20px rgba(255, 255, 0, 0.3);
+    text-shadow: 0 0 10px rgba(255, 255, 0, 1);
+}
+
+/* 评分数值增强显示 */
+.rating-entry strong,
+.rating-entry b {
+    color: #fff !important;
+    font-weight: bold;
+    text-shadow: 0 0 15px currentColor;
+    padding: 0 4px;
+    background: rgba(0, 255, 65, 0.1);
+    border-radius: 2px;
+}
+
+/* 最后一个条目 */
+.rating-entry:last-child {
+    margin-bottom: 0;
+}
+
+/* === 活动卡片 === */
+div.User.container > div.row > div.col-sm-4 > div.Card.activity-card {
+    background: rgba(0, 255, 65, 0.03) !important;
     border: 2px solid #00d4ff !important;
     border-radius: 0 !important;
-    padding: 30px !important;
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+    padding: 16px 10px !important;
+    margin: 18px 10px !important;
+    box-shadow:
+        0 0 20px rgba(0, 212, 255, 0.2),
+        inset 0 0 20px rgba(0, 212, 255, 0.05);
+}
+
+/* === 右侧内容区 === */
+div.User.container > div.row > div.col-sm-8 {
+    margin-left: 320px !important;
+    width: calc(100% - 320px) !important;
+    max-width: calc(100% - 320px) !important;
+    padding: 30px 40px !important;
+    flex: none !important;
+    position: relative;
+}
+
+/* 内容渐进加载 */
+div.User.container > div.row > div.col-sm-8 > * {
+    animation: fadeInUp 0.6s ease-out backwards;
+}
+
+div.User.container > div.row > div.col-sm-8 > *:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+div.User.container > div.row > div.col-sm-8 > *:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+div.User.container > div.row > div.col-sm-8 > *:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === 右侧卡片 - 全息数据面板 === */
+div.User.container > div.row > div.col-sm-8 > div.Card {
+    background:
+        linear-gradient(135deg,
+            rgba(0, 35, 18, 0.9) 0%,
+            rgba(0, 20, 10, 0.95) 100%) !important;
+    border: 2px solid #00d4ff !important;
+    border-radius: 0 !important;
+    padding: 35px !important;
+    margin-bottom: 35px !important;
+    position: relative;
+    box-shadow:
+        0 0 50px rgba(0, 212, 255, 0.4),
+        inset 0 0 80px rgba(0, 212, 255, 0.08),
+        0 5px 20px rgba(0, 0, 0, 0.3);
+    clip-path: polygon(
+        10px 0,
+        calc(100% - 10px) 0,
+        100% 10px,
+        100% calc(100% - 10px),
+        calc(100% - 10px) 100%,
+        10px 100%,
+        0 calc(100% - 10px),
+        0 10px
+    );
+    transition: all 0.4s ease;
+    overflow: hidden;
+}
+
+/* 卡片发光边框动画 */
+div.User.container > div.row > div.col-sm-8 > div.Card::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+    background: linear-gradient(45deg,
+        #00ff41,
+        #00d4ff,
+        #ff00ff,
+        #ffff00,
+        #00ff41);
+    background-size: 400% 400%;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    animation: gradientRotate 6s ease infinite;
+    border-radius: 0;
+}
+
+@keyframes gradientRotate {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+div.User.container > div.row > div.col-sm-8 > div.Card:hover::before {
+    opacity: 0.6;
+}
+
+/* 卡片角落装饰 */
+div.User.container > div.row > div.col-sm-8 > div.Card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 1;
+    background:
+        linear-gradient(to right, #00ff41 0%, transparent 30%),
+        linear-gradient(to bottom, #00ff41 0%, transparent 30%),
+        linear-gradient(to left, #00ff41 0%, transparent 30%),
+        linear-gradient(to top, #00ff41 0%, transparent 30%);
+    background-size: 100% 2px, 2px 100%, 100% 2px, 2px 100%;
+    background-position: top left, top right, bottom right, bottom left;
+    background-repeat: no-repeat;
+    opacity: 0.3;
+}
+
+div.User.container > div.row > div.col-sm-8 > div.Card:hover {
+    box-shadow:
+        0 0 70px rgba(0, 212, 255, 0.6),
+        inset 0 0 100px rgba(0, 212, 255, 0.12),
+        0 10px 30px rgba(0, 0, 0, 0.4);
+    transform: translateY(-8px);
+    border-color: #00ff41;
+}
+
+/* 卡片内容层级 */
+div.User.container > div.row > div.col-sm-8 > div.Card > * {
+    position: relative;
+    z-index: 2;
+}
+
+/* 关于区域 - 特殊样式 */
+div.User.container > div.row > div.col-sm-8 > div:nth-child(2) > div > div {
+    background:
+        linear-gradient(135deg,
+            rgba(35, 0, 30, 0.9) 0%,
+            rgba(20, 0, 15, 0.95) 100%) !important;
+    border: 2px solid #ff00ff !important;
+    border-radius: 0 !important;
+    padding: 35px !important;
+    box-shadow:
+        0 0 50px rgba(255, 0, 255, 0.4),
+        inset 0 0 80px rgba(255, 0, 255, 0.08),
+        0 5px 20px rgba(0, 0, 0, 0.3);
+    clip-path: polygon(
+        10px 0,
+        calc(100% - 10px) 0,
+        100% 10px,
+        100% calc(100% - 10px),
+        calc(100% - 10px) 100%,
+        10px 100%,
+        0 calc(100% - 10px),
+        0 10px
+    );
+    transition: all 0.4s ease;
+}
+
+div.User.container > div.row > div.col-sm-8 > div:nth-child(2) > div > div:hover {
+    box-shadow:
+        0 0 70px rgba(255, 0, 255, 0.6),
+        inset 0 0 100px rgba(255, 0, 255, 0.12),
+        0 10px 30px rgba(0, 0, 0, 0.4);
+    transform: translateY(-8px);
 }
 
 .about-markdown {
     font-family: 'Courier New', monospace !important;
     color: #00ff41;
     overflow: visible !important;
-    line-height: 1.8;
+    line-height: 2;
+    font-size: 1.05em;
 }
 
 .about-markdown p {
-    text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+    text-shadow: 0 0 3px rgba(0, 255, 65, 0.5);
+    margin-bottom: 15px;
 }
 
 /* === 标题样式 === */
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Courier New', monospace !important;
     text-transform: uppercase;
-    letter-spacing: 4px;
+    letter-spacing: 5px;
     position: relative;
     display: inline-block;
     animation: none !important;
@@ -342,31 +786,57 @@ h1, h2, h3, h4, h5, h6 {
 
 h1 {
     color: #00ff41 !important;
-    font-size: 2.5em;
+    font-size: 2.8em;
     text-shadow:
         0 0 10px #00ff41,
         0 0 20px #00ff41,
-        0 0 30px #00ff41;
+        0 0 30px #00ff41,
+        0 0 50px #00ff41;
+    margin-bottom: 30px;
 }
 
 h2 {
     color: #00d4ff !important;
-    font-size: 1.8em;
-    text-shadow: 0 0 10px #00d4ff, 0 0 20px #00d4ff;
-    border-bottom: 2px solid #00d4ff;
-    padding-bottom: 10px;
-    margin-bottom: 20px !important;
+    font-size: 2em;
+    text-shadow:
+        0 0 10px #00d4ff,
+        0 0 20px #00d4ff,
+        0 0 30px #00d4ff;
+    border-bottom: 3px solid #00d4ff;
+    padding-bottom: 15px;
+    margin-bottom: 30px !important;
+    position: relative;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    width: 0;
+    height: 3px;
+    background: #00ff41;
+    animation: underlineGrow 2s ease-in-out infinite;
+}
+
+@keyframes underlineGrow {
+    0%, 100% { width: 0; }
+    50% { width: 100%; }
 }
 
 h3 {
     color: #ff00ff !important;
-    font-size: 1.5em;
-    text-shadow: 0 0 10px #ff00ff;
+    font-size: 1.6em;
+    text-shadow:
+        0 0 10px #ff00ff,
+        0 0 20px #ff00ff;
 }
 
 h4, h5, h6 {
     color: #ffff00 !important;
-    text-shadow: 0 0 10px #ffff00;
+    text-shadow:
+        0 0 10px #ffff00,
+        0 0 15px #ffff00;
 }
 
 /* 隐藏默认标题 */
@@ -375,31 +845,38 @@ div.User.container > div.row > div.col-sm-4 > h2 {
     display: none;
 }
 
-/* === 活跃游戏区域 === */
+/* === 活跃游戏 === */
 .active-games {
-    background: linear-gradient(145deg, rgba(255, 0, 255, 0.1), rgba(255, 0, 255, 0.05)) !important;
-    border: 2px solid #ff00ff !important;
+    background: rgba(0, 255, 65, 0.05) !important;
+    border: 2px solid #00ff41 !important;
     border-radius: 0 !important;
-    padding: 20px;
-    box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+    padding: 25px;
+    box-shadow:
+        0 0 20px rgba(0, 255, 65, 0.3),
+        inset 0 0 30px rgba(0, 255, 65, 0.05);
+    position: relative;
+    margin-bottom: 30px;
 }
 
 .active-games::before {
-    content: '>>> ACTIVE_GAMES.EXE';
+    content: '> root@ogs:~$ cat /proc/active_games';
     display: block;
-    color: #ff00ff;
+    color: #00ff41;
     font-family: 'Courier New', monospace;
-    font-size: 0.9em;
-    margin-bottom: 15px;
-    text-shadow: 0 0 10px #ff00ff;
-    letter-spacing: 2px;
+    font-size: 0.85em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00ff41;
+    letter-spacing: 1px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    border-left: 3px solid #00ff41;
 }
 
 /* === 游戏历史表格 === */
 .game-history-table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 8px;
+    border-spacing: 0 10px;
 }
 
 .game-history-table > thead {
@@ -407,8 +884,8 @@ div.User.container > div.row > div.col-sm-4 > h2 {
 }
 
 .game-history-table > tbody > tr {
-    background: rgba(0, 255, 65, 0.05);
-    border-left: 3px solid #00ff41;
+    background: rgba(0, 255, 65, 0.03);
+    border-left: 4px solid #00ff41;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
@@ -421,14 +898,20 @@ div.User.container > div.row > div.col-sm-4 > h2 {
     top: 0;
     width: 0;
     height: 100%;
-    background: linear-gradient(90deg, rgba(0, 255, 65, 0.2), transparent);
-    transition: width 0.3s ease;
+    background: linear-gradient(90deg,
+        rgba(0, 255, 65, 0.2),
+        rgba(0, 212, 255, 0.1),
+        transparent);
+    transition: width 0.4s ease;
 }
 
 .game-history-table > tbody > tr:hover {
-    background: rgba(0, 255, 65, 0.15);
-    transform: translateX(10px);
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+    background: rgba(0, 255, 65, 0.1);
+    transform: translateX(15px) scale(1.02);
+    box-shadow:
+        0 0 30px rgba(0, 255, 65, 0.4),
+        inset 0 0 20px rgba(0, 255, 65, 0.1);
+    border-left-color: #00d4ff;
 }
 
 .game-history-table > tbody > tr:hover::before {
@@ -446,31 +929,34 @@ div.User.container > div.row > div.col-sm-4 > h2 {
 .user_info {
     color: #00ff41 !important;
     font-family: 'Courier New', monospace;
-    text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
+    text-shadow: 0 0 5px rgba(0, 255, 65, 0.6);
+    font-size: 0.95em;
 }
 
 .Player-username {
     color: #00d4ff !important;
     font-family: 'Courier New', monospace;
-    text-shadow: 0 0 5px rgba(0, 212, 255, 0.5);
+    text-shadow: 0 0 8px rgba(0, 212, 255, 0.8);
+    font-weight: bold;
 }
 
 .Player-rank {
     color: #ff00ff !important;
     font-family: 'Courier New', monospace;
-    text-shadow: 0 0 5px rgba(255, 0, 255, 0.5);
+    text-shadow: 0 0 8px rgba(255, 0, 255, 0.8);
 }
 
 .sortable {
     color: #ffff00 !important;
-    text-shadow: 0 0 5px rgba(255, 255, 0, 0.5);
+    text-shadow: 0 0 8px rgba(255, 255, 0, 0.6);
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
 .sortable:hover {
     color: #00ff41 !important;
-    text-shadow: 0 0 10px #00ff41;
+    text-shadow: 0 0 15px #00ff41;
+    transform: scale(1.1);
 }
 
 /* === 网站链接 === */
@@ -482,22 +968,25 @@ div.User.container > div.row > div.col-sm-4 > h2 {
     animation: none !important;
     position: relative;
     transition: all 0.3s ease;
+    display: inline-block;
 }
 
 .website-url a::before {
-    content: '[ ';
+    content: '>>> ';
     color: #00ff41;
+    margin-right: 5px;
 }
 
 .website-url a::after {
-    content: ' ]';
+    content: ' <<<';
     color: #00ff41;
+    margin-left: 5px;
 }
 
 .website-url a:hover {
     color: #ff00ff !important;
-    text-shadow: 0 0 15px #ff00ff;
-    transform: translateX(5px);
+    text-shadow: 0 0 20px #ff00ff;
+    transform: translateX(10px);
 }
 
 /* === 滚动条 === */
@@ -507,19 +996,29 @@ div.User.container > div.row > div.col-sm-4 > h2 {
 }
 
 ::-webkit-scrollbar-track {
-    background: rgba(26, 26, 46, 0.5);
-    border: 1px solid rgba(0, 255, 65, 0.2);
+    background: rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(0, 255, 65, 0.3);
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(180deg, #00ff41, #00d4ff);
-    border-radius: 0;
-    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+    background: linear-gradient(180deg,
+        #00ff41 0%,
+        #00d4ff 50%,
+        #00ff41 100%);
+    border: 1px solid #00ff41;
+    box-shadow:
+        0 0 10px rgba(0, 255, 65, 0.8),
+        inset 0 0 5px rgba(0, 255, 65, 0.5);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(180deg, #00d4ff, #ff00ff);
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.7);
+    background: linear-gradient(180deg,
+        #00d4ff 0%,
+        #ff00ff 50%,
+        #00d4ff 100%);
+    box-shadow:
+        0 0 20px rgba(0, 212, 255, 1),
+        inset 0 0 10px rgba(0, 212, 255, 0.7);
 }
 
 /* === 隐藏元素 === */
@@ -527,151 +1026,109 @@ div.User.container > div.row > div.col-sm-4 > h2 {
     display: none !important;
 }
 
-#default-variant-container > div.User.container > div.row > div.col-sm-8 > div:nth-child(3) {
+div.User.container > div.row > div.col-sm-8 > div:nth-child(3) {
     display: none;
 }
 
-#default-variant-container > header > nav > section:nth-child(3) > a,
-#default-variant-container > header > nav > section:nth-child(4) > a,
-#default-variant-container > header > nav > section:nth-child(5) > a {
+/* === 粒子背景 === */
+header > nav > section:nth-child(3) > a,
+header > nav > section:nth-child(4) > a,
+header > nav > section:nth-child(5) > a {
     display: none !important;
 }
 
-/* === 霓虹粒子效果 === */
-#default-variant-container > header > nav > section:nth-child(3),
-#default-variant-container > header > nav > section:nth-child(4),
-#default-variant-container > header > nav > section:nth-child(5) {
+header > nav > section:nth-child(3),
+header > nav > section:nth-child(4),
+header > nav > section:nth-child(5) {
     position: fixed !important;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     pointer-events: none;
-    z-index: 0;
+    z-index: 1;
+    opacity: 0.4;
 }
 
-/* 粒子层 1 - 青色 */
-#default-variant-container > header > nav > section:nth-child(3) {
-    background: radial-gradient(2px 2px at 20% 30%, #00ff41, transparent),
-                radial-gradient(2px 2px at 60% 70%, #00d4ff, transparent),
-                radial-gradient(1px 1px at 50% 50%, #00ff41, transparent),
-                radial-gradient(1px 1px at 80% 10%, #00d4ff, transparent),
-                radial-gradient(2px 2px at 90% 60%, #ff00ff, transparent),
-                radial-gradient(1px 1px at 33% 80%, #00ff41, transparent),
-                radial-gradient(1px 1px at 70% 40%, #00d4ff, transparent);
-    background-size: 200% 200%;
-    animation: particleFloat1 20s ease-in-out infinite;
-    opacity: 0.3;
+/* 粒子层 1 */
+header > nav > section:nth-child(3) {
+    background:
+        radial-gradient(circle at 20% 30%, rgba(0, 255, 65, 0.3) 0%, transparent 2%),
+        radial-gradient(circle at 60% 70%, rgba(0, 212, 255, 0.3) 0%, transparent 2%),
+        radial-gradient(circle at 50% 50%, rgba(0, 255, 65, 0.2) 0%, transparent 1%),
+        radial-gradient(circle at 80% 10%, rgba(0, 212, 255, 0.2) 0%, transparent 1%);
+    background-size: 300% 300%;
+    animation: particleMove1 25s ease-in-out infinite;
 }
 
-@keyframes particleFloat1 {
+@keyframes particleMove1 {
     0%, 100% { background-position: 0% 0%; }
     25% { background-position: 100% 0%; }
     50% { background-position: 100% 100%; }
     75% { background-position: 0% 100%; }
 }
 
-/* 粒子层 2 - 品红 */
-#default-variant-container > header > nav > section:nth-child(4) {
-    background: radial-gradient(3px 3px at 40% 20%, #ff00ff, transparent),
-                radial-gradient(2px 2px at 80% 80%, #00ff41, transparent),
-                radial-gradient(1px 1px at 10% 60%, #ff00ff, transparent),
-                radial-gradient(2px 2px at 95% 30%, #00d4ff, transparent),
-                radial-gradient(1px 1px at 25% 90%, #ff00ff, transparent);
-    background-size: 300% 300%;
-    animation: particleFloat2 25s ease-in-out infinite reverse;
-    opacity: 0.2;
+/* 粒子层 2 */
+header > nav > section:nth-child(4) {
+    background:
+        radial-gradient(circle at 40% 20%, rgba(255, 0, 255, 0.2) 0%, transparent 2%),
+        radial-gradient(circle at 80% 80%, rgba(0, 255, 65, 0.2) 0%, transparent 1.5%),
+        radial-gradient(circle at 10% 60%, rgba(255, 0, 255, 0.15) 0%, transparent 1%);
+    background-size: 350% 350%;
+    animation: particleMove2 30s ease-in-out infinite reverse;
 }
 
-@keyframes particleFloat2 {
+@keyframes particleMove2 {
     0%, 100% { background-position: 0% 0%; }
     33% { background-position: 100% 0%; }
     66% { background-position: 0% 100%; }
 }
 
-/* 粒子层 3 - 黄色 */
-#default-variant-container > header > nav > section:nth-child(5) {
-    background: radial-gradient(2px 2px at 15% 50%, #ffff00, transparent),
-                radial-gradient(1px 1px at 55% 25%, #00ff41, transparent),
-                radial-gradient(2px 2px at 75% 75%, #ffff00, transparent),
-                radial-gradient(1px 1px at 30% 15%, #00d4ff, transparent),
-                radial-gradient(1px 1px at 85% 95%, #ffff00, transparent);
-    background-size: 250% 250%;
-    animation: particleFloat3 30s ease-in-out infinite;
-    opacity: 0.15;
+/* 粒子层 3 */
+header > nav > section:nth-child(5) {
+    background:
+        radial-gradient(circle at 15% 50%, rgba(255, 255, 0, 0.15) 0%, transparent 1.5%),
+        radial-gradient(circle at 55% 25%, rgba(0, 255, 65, 0.15) 0%, transparent 1%),
+        radial-gradient(circle at 75% 75%, rgba(255, 255, 0, 0.1) 0%, transparent 1%);
+    background-size: 280% 280%;
+    animation: particleMove3 35s ease-in-out infinite;
 }
 
-@keyframes particleFloat3 {
+@keyframes particleMove3 {
     0%, 100% { background-position: 50% 50%; }
     50% { background-position: 100% 100%; }
 }
 
-/* === 文本选择样式 === */
+/* === 文本选择 === */
 ::selection {
-    background: rgba(0, 255, 65, 0.3);
-    color: #00ff41;
+    background: rgba(0, 255, 65, 0.4);
+    color: #fff;
     text-shadow: 0 0 10px #00ff41;
 }
 
-/* === 加载提示 === */
+/* === 加载动画 === */
 .profile-card {
     margin-bottom: 60px;
-    animation: fadeIn 1s ease-in-out;
+    animation: fadeInUp 1s ease-out;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* === 响应式设计 === */
-@media (max-width: 1200px) {
-    div.User.container > div.row {
-        grid-template-columns: 1fr !important;
-    }
-
-    div.User.container > div.row > div.col-sm-4 {
-        position: relative;
-        max-width: 100% !important;
-        top: 0;
-    }
-}
-
-/* === 终端光标效果 === */
-@keyframes blink {
-    0%, 49% { opacity: 1; }
-    50%, 100% { opacity: 0; }
-}
-
-.avatar-container .Player-username::after {
-    content: '▮';
-    animation: blink 1s infinite;
-    margin-left: 5px;
-}
-
-/* === 全局文本样式 === */
+/* === 全局文本 === */
 span {
     animation: none !important;
 }
 
-/* === 代码块美化 === */
+/* === 代码块 === */
 code, pre {
     background: rgba(0, 255, 65, 0.1);
     border: 1px solid #00ff41;
     border-radius: 0;
-    padding: 2px 6px;
+    padding: 3px 8px;
     color: #00ff41;
     font-family: 'Courier New', monospace;
     text-shadow: 0 0 5px rgba(0, 255, 65, 0.5);
 }
 
-/* === 强调文本 === */
+/* === 强调 === */
 strong, b {
     color: #ff00ff;
     text-shadow: 0 0 10px #ff00ff;
@@ -683,7 +1140,7 @@ em, i {
     text-shadow: 0 0 8px #00d4ff;
 }
 
-/* === 链接通用样式 === */
+/* === 链接 === */
 a {
     color: #00d4ff;
     text-decoration: none;
@@ -696,53 +1153,83 @@ a:hover {
     text-shadow: 0 0 10px #00ff41;
 }
 
-/* === 按钮样式 === */
+/* === 按钮 === */
 button, .btn {
-    background: linear-gradient(145deg, #00ff41, #00d4ff) !important;
+    background: linear-gradient(135deg, #00ff41, #00d4ff) !important;
     border: 2px solid #00ff41 !important;
-    color: #0a0e27 !important;
+    color: #000 !important;
     font-family: 'Courier New', monospace;
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 2px;
-    padding: 10px 20px;
+    padding: 12px 24px;
     cursor: pointer;
     transition: all 0.3s ease;
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
 }
 
 button:hover, .btn:hover {
-    background: linear-gradient(145deg, #00d4ff, #ff00ff) !important;
-    box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
-    transform: translateY(-2px);
+    background: linear-gradient(135deg, #00d4ff, #ff00ff) !important;
+    box-shadow: 0 0 40px rgba(0, 212, 255, 0.8);
+    transform: translateY(-3px);
 }
 
-/* === 输入框样式 === */
+/* === 输入框 === */
 input, textarea {
-    background: rgba(26, 26, 46, 0.8) !important;
+    background: rgba(0, 20, 10, 0.9) !important;
     border: 2px solid #00ff41 !important;
     color: #00ff41 !important;
     font-family: 'Courier New', monospace;
-    padding: 10px;
+    padding: 12px;
     border-radius: 0 !important;
 }
 
 input:focus, textarea:focus {
     outline: none;
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.5);
+    box-shadow: 0 0 30px rgba(0, 255, 65, 0.6);
     border-color: #00d4ff !important;
 }
 
-/* === 高级霓虹脉冲效果 === */
-@keyframes neonPulse {
-    0%, 100% {
-        filter: brightness(1) drop-shadow(0 0 5px currentColor);
+/* === 响应式 === */
+@media (max-width: 1200px) {
+    div.User.container > div.row > div.col-sm-4 {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto;
+        border-right: none;
+        border-bottom: 3px solid #00ff41;
+        top: 0;
     }
-    50% {
-        filter: brightness(1.3) drop-shadow(0 0 20px currentColor);
+
+    div.User.container > div.row > div.col-sm-8 {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 }
 
-h1, h2, h3 {
-    animation: neonPulse 2s ease-in-out infinite;
+/* === 数据流动效果 === */
+@keyframes dataFlow {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+.ratings-container,
+.active-games,
+div.User.container > div.row > div.col-sm-4 > div.Card.activity-card {
+    background-image:
+        repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 10px,
+            rgba(0, 255, 65, 0.05) 10px,
+            rgba(0, 255, 65, 0.05) 11px
+        );
+    background-size: 200% 200%;
+    animation: dataFlow 10s linear infinite;
 }
